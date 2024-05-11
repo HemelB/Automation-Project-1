@@ -22,7 +22,9 @@ describe('This is first test suite, Hemel Bhuiya', () => {
         cy.get('[data-testid="phoneNumberTestId"]').type('555666777')
         cy.get('input[name="password"]').type('Hemel123')
         cy.get('[name="confirm"]').type('Hemel123')
-        cy.get('#username').type('Something')
+        cy.get('#firstName').type('Hemel')
+        cy.get('#lastName').type('Bhuiya')
+        cy.get('#username').type('HemelB')
 
         //in order to activate submit button, user has to click somewhere outside the input field
         cy.get('h2').contains('Password').click()
@@ -104,10 +106,22 @@ describe('This is first test suite, Hemel Bhuiya', () => {
 
     it('User cannot submit data when phone number is absent', () => {
         // Add test, similar to previous one with phone number field not filled in
-        
-
+        cy.get('[data-testid="phoneNumberTestId"]').type('555666777')
         // All other fields should be entered correctly
+        cy.get('input[name="password"]').type('Hemel123')
+        cy.get('[name="confirm"]').type('Hemel123')
+        cy.get('#firstName').type('Hemel')
+        cy.get('#lastName').type('Bhuiya')
+        cy.get('#username').type('HemelB')
+
+        // Scroll back to username input field
+        cy.get('[data-testid="phoneNumberTestId"]').scrollIntoView()
+        cy.get('[data-testid="phoneNumberTestId"]').clear()
+        cy.get('h2').contains('Password').click()
+
         // Assert that submit button is not enabled and that successful message is not visible
+        cy.get('.submit_button').should('be.disabled')
+        cy.get('#success_message').should('not.be.visible')
         
     })
 
